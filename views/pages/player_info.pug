@@ -1,0 +1,85 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        if(result_2)
+              each item in result_2
+                img.card-img-top#player_img(src= "../"+item.img_src,alt= "Football Player")
+
+        img.card-img-top#player_img(src= image_src, alt="Football Player")
+        div.card-body.mx-auto
+          form.form(action="/player_info/select_player", method="get")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              option(selected) Select Player
+              //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+              if(data)
+                each item in data
+                  value= item.id
+                  option(value = item.id)= item.name
+              if(result_1)
+                each item in result_1
+                  value= item.id
+                  option(value = item.id)= item.name
+    div.col-8
+      div.table-responsive
+        table.table
+          //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+          tr
+            th Year
+            if(result_2)
+              each item in result_2
+                td= item.year
+          tr
+            th Major
+            if(result_2)
+              each item in result_2
+                td= item.major
+          tr
+            th Games Played
+            if(result_3)
+              each item in result_3
+                td= item.games_played
+          tr
+            td Passing Yards:
+            if(result_2)
+              each item in result_2
+                td= item.passing_yards
+            td Avg. Passing Yards:
+            if(result_2)
+              if(result_3)
+                each item in result_2
+                  each item2 in result_3
+                    td= item.passing_yards/item2.games_played
+            
+          tr
+            td Rushing Yards: 
+            if(result_2)
+              each item in result_2
+                td= item.rushing_yards
+            td Avg. Rushing Yards:
+            if(result_2)
+              if(result_3)
+                each item in result_2
+                  each item2 in result_3
+                    td= item.rushing_yards/item2.games_played
+            
+          tr
+            td Receiving Yards:
+            if(result_2)
+              each item in result_2
+                td= item.receiving_yards
+            td Avg. Receiving Yards:
+            if(result_2)
+              if(result_3)
+                each item in result_2
+                  each item2 in result_3
+                    td= item.receiving_yards/item2.games_played
+            
+
+include ../partials/footer.pug
